@@ -1,0 +1,22 @@
+{
+  "name": "ys-dbo",
+  "version": "1.0.3",
+  "description": "yishu database engine",
+  "main": "index.js",
+  "author": "shenyunjie",
+  "license": "MIT",
+  "files": [
+    "lib",
+    "index.js",
+    "package.json",
+    "README.md"
+  ],
+  "dependencies": {
+    "async-events-listener": "^1.0.0",
+    "debug": "^3.1.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com:yskit/ys-dbo.git"
+  }
+}
