@@ -36,3 +36,7 @@ await way.redis.hgetall('a');
 await way.redis.commit();
 await way.redis.rollback();
 ```
+
+# License
+
+It is [MIT licensed](https://opensource.org/licenses/MIT).
