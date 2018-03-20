@@ -37,3 +37,7 @@ await way.mysql.commit();
 await way.mysql.rollback();
 await way.mysql.release();
 ```
+
+# License
+
+It is [MIT licensed](https://opensource.org/licenses/MIT).

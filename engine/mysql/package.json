@@ -1,6 +1,6 @@
 {
   "name": "ys-dbo-mysql",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "yishu database engine for mysql",
   "main": "index.js",
   "author": "shenyunjie",
@@ -11,6 +11,6 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/cevio/ys-dbo/tree/master/engine/mysql"
+    "url": "https://github.com/yskit/ys-dbo/tree/master/engine/mysql"
   }
 }
