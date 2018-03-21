@@ -1,6 +1,6 @@
 {
   "name": "ys-dbo-mysql",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "yishu database engine for mysql",
   "main": "index.js",
   "author": "shenyunjie",

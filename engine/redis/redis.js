@@ -20,7 +20,9 @@ module.exports = class Redis {
     if (cmd && this.transacted && commands.hasFlag(cmd, 'write')) {
       return this.target[cmd].bind(this.target);
     }
-    return this.dbo[cmd].bind(this.dbo);
+    if (this.dbo[cmd]) {
+      return this.dbo[cmd].bind(this.dbo);
+    }
   }
 
   async begin() {

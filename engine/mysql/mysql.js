@@ -150,7 +150,9 @@ module.exports = class MySQL {
   }
 
   async end() {
-    await this._check(async () => await this.release());
+    if (this.target) {
+      await this.release();
+    }
     debug('mysql transaction ended');
   }
 }
