@@ -1,6 +1,6 @@
 {
   "name": "ys-dbo-redis",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "yishu database engine for redis, both of common and cluster.",
   "main": "index.js",
   "author": "shenyunjie",

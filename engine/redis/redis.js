@@ -5,20 +5,22 @@ module.exports = class Redis {
   constructor(redis) {
     this.redis = redis;
     this.dbo = redis.dbo;
-    this.target = null;
     this.transacted = false;
-  }
-
-  async _check(callback) {
-    if (this.transacted) {
-      return await callback(this.target);
-    }
-    return await callback(this.dbo);
+    this.stacks = [];
   }
 
   _exec(cmd) {
     if (cmd && this.transacted && commands.hasFlag(cmd, 'write')) {
-      return this.target[cmd].bind(this.target);
+      if (typeof this.dbo[cmd] === 'function') {
+        return async (...args) => {
+          this.stacks.push({
+            cmd,
+            args
+          });
+        }
+      } else {
+        throw new Error('unKnow command: ' + cmd);
+      }
     }
     if (this.dbo[cmd]) {
       return this.dbo[cmd].bind(this.dbo);
@@ -27,22 +29,20 @@ module.exports = class Redis {
 
   async begin() {
     if (this.transacted) return;
-    this.target = this.dbo.multi();
     this.transacted = true;
     debug('redis transaction begined ...');
   }
 
   async commit() {
     if (!this.transacted) return;
-    await this._check(async conn => {
-      await new Promise((resolve, reject) => {
-        conn.exec((err, result) => {
-          this.transacted = false;
-          if (err) return reject(err);
-          resolve();
-        })
-      })
-    });
+    const stacks = this.stacks.map(stack => new Promise((resolve, reject) => {
+      stack.args.push((err, result) => {
+        if (err) return reject(err);
+        resolve(result);
+      });
+      this.dbo[stack.cmd].apply(this.dbo, stack.args);
+    }));
+    await Promise.all(stacks);
     debug('redis transaction committed');
   }
 
@@ -51,4 +51,6 @@ module.exports = class Redis {
     this.transacted = false;
     debug('redis transaction rollbacked');
   }
+
+  async end() {}
 }
