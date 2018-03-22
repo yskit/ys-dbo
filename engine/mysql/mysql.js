@@ -123,29 +123,29 @@ module.exports = class MySQL {
 
   async commit() {
     if (!this.transacted) return;
-    await this._check(async conn => {
+    if (this.target) {
       await new Promise((resolve, reject) => {
-        conn.commit(err => {
-          if (err) return reject(err);
-          this.transacted = false;
-          resolve();
-        })
-      })
-    });
-    debug('mysql transaction committed');
-  }
-
-  async rollback() {
-    if (!this.transacted) return;
-    await this._check(async conn => {
-      await new Promise((resolve, reject) => {
-        conn.rollback(err => {
+        this.target.commit(err => {
           if (err) return reject(err);
           this.transacted = false;
           resolve();
         })
       });
-    });
+    }
+    debug('mysql transaction committed');
+  }
+
+  async rollback() {
+    if (!this.transacted) return;
+    if (this.target) {
+      await new Promise((resolve, reject) => {
+        this.target.rollback(err => {
+          if (err) return reject(err);
+          this.transacted = false;
+          resolve();
+        })
+      });
+    }
     debug('mysql transaction rollbacked');
   }
 
