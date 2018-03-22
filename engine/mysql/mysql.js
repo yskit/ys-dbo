@@ -44,7 +44,7 @@ module.exports = class MySQL {
 
   async _check(callback) {
     if (!this.target) {
-      throw new Error('Miss mysql connection object, you should use `await mysql.get()` first.');
+      await this.get();
     }
     if (callback) {
       return await callback(this.target);
