@@ -1,6 +1,6 @@
 {
   "name": "ys-dbo",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "yishu database engine",
   "main": "index.js",
   "author": "shenyunjie",
@@ -12,7 +12,7 @@
     "README.md"
   ],
   "dependencies": {
-    "async-events-listener": "^1.0.0",
+    "async-events-listener": "^1.0.1",
     "debug": "^3.1.0"
   },
   "repository": {
