@@ -1,6 +1,6 @@
 {
   "name": "ys-dbo",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "yishu database engine",
   "main": "index.js",
   "author": "shenyunjie",
