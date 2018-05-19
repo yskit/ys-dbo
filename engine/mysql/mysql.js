@@ -65,22 +65,9 @@ module.exports = class MySQL {
   }
 
   async insert(table, data) {
-    let isSingle = false;
-    const result = [];
-
-    if (!Array.isArray(data)) {
-      data = [data];
-      isSingle = true;
-    }
-
-    for (let i = 0; i < data.length; i++) {
-      result.push(await this.exec(`INSERT INTO ${table} SET ?`, data[i]));
-    }
-
-    if (isSingle) {
-      return result[0];
-    }
-
+    if (!Array.isArray(data)) data = [data];
+    const result = await Promise.all(data.map(value => this.exec(`INSERT INTO ${table} SET ?`, value)));
+    if (result.length === 1) return result[0];
     return result;
   }
 
@@ -95,7 +82,7 @@ module.exports = class MySQL {
       sql += ' WHERE ' + where;
       values = values.concat(wheres);
     }
-    return await this.exec(sql, ...values);
+    return (await this.exec(sql, ...values)).changedRows;
   }
 
   async ['delete'](table, where, ...wheres){
@@ -104,7 +91,7 @@ module.exports = class MySQL {
         sql += ' WHERE ' + where;
         values = values.concat(wheres);
     }
-    return await this.exec(sql, ...values);
+    return (await this.exec(sql, ...values)).affectedRows;
   }
 
   async begin() {
