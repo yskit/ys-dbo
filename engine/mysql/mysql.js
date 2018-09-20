@@ -74,7 +74,7 @@ module.exports = class MySQL {
   async update(table, value, where, ...wheres) {
     let fields = [], values = [];
     for ( let key in value ){
-      fields.push(key + '=?');
+      fields.push('`' + key + '`=?');
       values.push(value[key]);
     }
     let sql = `UPDATE ${table} SET ${fields.join(',')}`;
